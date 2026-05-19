@@ -22,13 +22,15 @@ def main():
             if result:
                 found = True
                 msg += (
-                    f"{result['state']} {result['symbol']}\n"
+                    f"{result['symbol']}\n"
                     f"Price: ${result['price']}\n"
                     f"Recent High: ${result['high']}\n"
                     f"Recent Low: ${result['low']}\n"
                     f"Drawdown: {result['drawdown']}%\n"
                     f"Rebound: +{result['rebound']}%\n"
                     f"RS Ratio: {result['rs']}\n\n"
+                    f"Window: {result['window']}\n\n"
+                    f"{result['state']} \n\n"
                 )
         except Exception as e:
             print(f"{symbol} error: {e}")

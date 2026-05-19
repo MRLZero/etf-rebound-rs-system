@@ -33,14 +33,45 @@ def consecutive_up_days(close, n=3):
 # -----------------------------
 # ETF 分析函数
 # -----------------------------
+def fetch_etf_history(symbol, period_days=365):
+    """
+    获取 ETF 历史行情，并统一截取最近 period_days 的数据
+
+    symbol: str, ETF 代码，如 '510300'（沪深300 ETF）
+    period_days: int, 最近多少天数据
+    """
+    try:
+        # 获取 ETF 日线行情
+        # akshare 里沪深ETF一般使用 ak.fund_etf_daily
+        # df = ak.fund_etf_daily(symbol)
+        df = ak.stock_us_daily(symbol=symbol, adjust='qfq')
+    except Exception as e:
+        print(f"Error fetching {symbol}: {e}")
+        return None
+
+    if df.empty:
+        return None
+
+    # df 默认列名：date, open, high, low, close, volume, amount
+    df['date'] = pd.to_datetime(df['date'])
+    df = df.sort_values('date')  # 按时间升序排序
+
+    # 获取最近 period_days 的数据
+    end_date = df['date'].max()
+    start_date = end_date - pd.Timedelta(days=period_days)
+    df_filtered = df[df['date'] >= start_date].copy()
+
+    df_filtered.reset_index(drop=True, inplace=True)
+    return df_filtered
+
 def analyze(symbol, base_window, market):
     """分析单只ETF信号"""
     try:
         # data = yf.download(symbol, period="1y", auto_adjust=True)
         # spy_data = yf.download("SPY", period="1y", auto_adjust=True)
 
-        data = ak.stock_us_daily(symbol=symbol, adjust='qfq')
-        spy_data = ak.stock_us_daily(symbol="SPY", adjust='qfq')
+        data = fetch_etf_history(symbol=symbol)
+        spy_data = fetch_etf_history(symbol="SPY")
 
     except Exception as e:
         print(f"{symbol} download error: {e}")
