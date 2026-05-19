@@ -149,7 +149,7 @@ def analyze(symbol, base_window, market):
         state = "⚪ WATCH"
 
     else:
-        return None
+        state = "⚪ No-Trade"
 
     return {
         "symbol": symbol,
