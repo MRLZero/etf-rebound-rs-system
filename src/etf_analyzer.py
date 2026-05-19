@@ -17,7 +17,7 @@ def get_dynamic_window(close, base_window=120, min_window=60, max_window=180):
     vol = close.pct_change().rolling(20).std().iloc[-1]
     if np.isnan(vol) or vol == 0:
         return base_window
-    vol_factor = vol / 0.02  # 0.02 为参考基准，可调整
+    vol_factor = vol / 0.025  # 0.02 为参考基准，可调整
     window = int(base_window / vol_factor)
     window = max(min_window, min(max_window, window))
     return window
