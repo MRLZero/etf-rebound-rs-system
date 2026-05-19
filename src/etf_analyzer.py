@@ -90,10 +90,32 @@ def analyze(symbol, base_window, market):
     # 动态 window
     # -----------------------------
     window = get_dynamic_window(close, base_window)
-    recent_low = float(close.rolling(window).min().iloc[-1])
-    recent_high = float(close.rolling(window).max().iloc[-1])
+    # recent_low = float(close.rolling(window).min().iloc[-1])
+    # recent_high = float(close.rolling(window).max().iloc[-1])
+    #
+    # drawdown = (price - recent_high) / recent_high * 100
+    # rebound = (price - recent_low) / recent_low * 100
 
+    # 最近 window 数据
+    recent_data = close.iloc[-window:]
+
+    # 找最高点位置
+    high_idx = recent_data.idxmax()
+    recent_high = recent_data.loc[high_idx]
+
+    # 只在 high 之后的数据里找低点
+    after_high = recent_data.loc[high_idx:]
+
+    recent_low = after_high.min()
+    low_idx = after_high.idxmin()
+
+    # 当前价格
+    price = recent_data.iloc[-1]
+
+    # 回撤
     drawdown = (price - recent_high) / recent_high * 100
+
+    # 反弹
     rebound = (price - recent_low) / recent_low * 100
 
     # -----------------------------
