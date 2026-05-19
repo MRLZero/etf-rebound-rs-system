@@ -10,7 +10,7 @@ def main():
     msg = "📈 *ETF RS Rebound Signals*\n\n"
     msg += (
         f"🌎 Market Regime:\n"
-        f"SPY > MA200: {'✅' if market['spy_bull'] else '❌'}\n"
+        f"VOO > MA200: {'✅' if market['voo_bull'] else '❌'}\n"
         f"QQQ > MA200: {'✅' if market['qqq_bull'] else '❌'}\n\n"
     )
 

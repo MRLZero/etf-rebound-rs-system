@@ -68,21 +68,21 @@ def analyze(symbol, base_window, market):
     """分析单只ETF信号"""
     try:
         # data = yf.download(symbol, period="1y", auto_adjust=True)
-        # spy_data = yf.download("SPY", period="1y", auto_adjust=True)
+        # voo_data = yf.download("SPY", period="1y", auto_adjust=True)
 
         data = fetch_etf_history(symbol=symbol)
-        spy_data = fetch_etf_history(symbol="SPY")
+        voo_data = fetch_etf_history(symbol="VOO")
 
     except Exception as e:
         print(f"{symbol} download error: {e}")
         return None
 
-    if data.empty or spy_data.empty:
+    if data.empty or voo_data.empty:
         return None
 
     close = data["close"]
     volume = data["volume"]
-    spy_close = spy_data["close"]
+    voo_close = voo_data["close"]
 
     price = float(close.iloc[-1])
 
@@ -117,7 +117,7 @@ def analyze(symbol, base_window, market):
     # -----------------------------
     # Relative Strength
     # -----------------------------
-    rs_ratio = close / spy_close
+    rs_ratio = close / voo_close
     rs_now = float(rs_ratio.iloc[-1])
     rs_ma20 = float(rs_ratio.rolling(20).mean().iloc[-1])
     rs_ma50 = float(rs_ratio.rolling(50).mean().iloc[-1])
@@ -127,7 +127,7 @@ def analyze(symbol, base_window, market):
     rs_breakout = rs_now >= rs_high60 * RS_BREAKOUT_FACTOR
 
     bull_market = market["bull_market"]
-    spy_bull = market["spy_bull"]
+    voo_bull = market["voo_bull"]
 
     # -----------------------------
     # 前期回撤过滤虚假反弹
@@ -164,7 +164,7 @@ def analyze(symbol, base_window, market):
         and above_ma_short
         and strong_trend
         and rs_strong_mid
-        and spy_bull
+        and voo_bull
         and pre_drawdown >= min_pre_drawdown
         # and up_days
     ):
