@@ -138,7 +138,7 @@ def analyze(symbol, base_window, market):
     # -----------------------------
     # 连续上涨天数
     # -----------------------------
-    up_days = consecutive_up_days(close, n=3)
+    # up_days = consecutive_up_days(close, n=3)
 
     # -----------------------------
     # 信号判定
@@ -154,7 +154,7 @@ def analyze(symbol, base_window, market):
         and rs_breakout
         and bull_market
         and pre_drawdown >= min_pre_drawdown
-        and up_days
+        # and up_days
     ):
         state = "🚀 STRONG BUY"
 
@@ -166,7 +166,7 @@ def analyze(symbol, base_window, market):
         and rs_strong_mid
         and spy_bull
         and pre_drawdown >= min_pre_drawdown
-        and up_days
+        # and up_days
     ):
         state = "🚀 BUY"
 
@@ -175,7 +175,7 @@ def analyze(symbol, base_window, market):
         and rebound >= SIGNAL_THRESHOLDS["WATCH"]["rebound"]
         and above_ma_short
         and rs_strong_short
-        and up_days
+        # and up_days
     ):
         state = "⚪ WATCH"
 

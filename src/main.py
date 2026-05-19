@@ -28,7 +28,7 @@ def main():
                     f"Recent Low: ${result['low']}\n"
                     f"Drawdown: {result['drawdown']}%\n"
                     f"Rebound: +{result['rebound']}%\n"
-                    f"RS Ratio: {result['rs']}\n"
+                    # f"RS Ratio: {result['rs']}\n"
                     f"Window: {result['window']}\n"
                     f"{result['state']} \n\n"
                 )
