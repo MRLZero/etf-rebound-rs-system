@@ -84,39 +84,32 @@ def analyze(symbol, base_window, market):
     volume = data["volume"]
     voo_close = voo_data["close"]
 
-    price = float(close.iloc[-1])
+    # price = float(close.iloc[-1])
 
     # -----------------------------
     # 动态 window
     # -----------------------------
     window = get_dynamic_window(close, base_window)
-    # recent_low = float(close.rolling(window).min().iloc[-1])
-    # recent_high = float(close.rolling(window).max().iloc[-1])
-    #
-    # drawdown = (price - recent_high) / recent_high * 100
-    # rebound = (price - recent_low) / recent_low * 100
-
     # 最近 window 数据
     recent_data = close.iloc[-window:]
-
     # 找最高点位置
     high_idx = recent_data.idxmax()
     recent_high = recent_data.loc[high_idx]
-
     # 只在 high 之后的数据里找低点
     after_high = recent_data.loc[high_idx:]
-
     recent_low = after_high.min()
     low_idx = after_high.idxmin()
-
     # 当前价格
     price = recent_data.iloc[-1]
-
     # 回撤
     drawdown = (price - recent_high) / recent_high * 100
-
     # 反弹
     rebound = (price - recent_low) / recent_low * 100
+    # -----------------------------
+    # 前期回撤过滤虚假反弹
+    # -----------------------------
+    pre_drawdown = (recent_high - recent_low) / recent_high * 100
+    min_pre_drawdown = 10  # 最小回撤百分比，可调
 
     # -----------------------------
     # 均线趋势
@@ -151,11 +144,7 @@ def analyze(symbol, base_window, market):
     bull_market = market["bull_market"]
     voo_bull = market["voo_bull"]
 
-    # -----------------------------
-    # 前期回撤过滤虚假反弹
-    # -----------------------------
-    pre_drawdown = (recent_high - recent_low) / recent_high * 100
-    min_pre_drawdown = 10  # 最小回撤百分比，可调
+
 
     # -----------------------------
     # 连续上涨天数

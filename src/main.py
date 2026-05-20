@@ -16,13 +16,15 @@ def main():
 
     found = False
 
-    for symbol, window in ETFS.items():
+    for symbol, item in ETFS.items():
         try:
+            window, category = item.get("window", 180), item.get("category", "Unknown")
             result = analyze(symbol, window, market)
             if result:
                 found = True
+                # category = symbol in ETFS and ETFS[symbol] or "Unknown"
                 msg += (
-                    f"{result['symbol']}\n"
+                    f"{result['symbol']} {category}\n"
                     f"Price: ${result['price']}\n"
                     f"Recent High: ${result['high']}\n"
                     f"Recent Low: ${result['low']}\n"
