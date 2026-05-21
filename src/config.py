@@ -62,9 +62,9 @@ ETFS = {
 # 回撤/反弹阈值（%）
 # 可根据策略调节
 SIGNAL_THRESHOLDS = {
-    "WATCH": {"drawdown": -15, "rebound": 7},
-    "BUY": {"drawdown": -20, "rebound": 10},
-    "STRONG_BUY": {"drawdown": -25, "rebound": 12}
+    "WATCH": {"drawdown": -15, "rebound": 5},
+    "BUY": {"drawdown": -20, "rebound": 8},
+    "STRONG_BUY": {"drawdown": -25, "rebound": 9}
 }
 
 # =========================================
