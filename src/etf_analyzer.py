@@ -108,8 +108,11 @@ def analyze(symbol, base_window, market):
     # -----------------------------
     # 前期回撤过滤虚假反弹
     # -----------------------------
-    pre_drawdown = (recent_high - recent_low) / recent_high * 100
-    min_pre_drawdown = 10  # 最小回撤百分比，可调
+    # pre_drawdown = (recent_high - recent_low) / recent_high * 100
+    # min_pre_drawdown = 10  # 最小回撤百分比，可调
+
+    pre_drawdown = (recent_low - recent_high) / recent_high * 100
+    min_pre_drawdown = -10  # 最小回撤百分比，可调
 
     # -----------------------------
     # 均线趋势
@@ -157,32 +160,35 @@ def analyze(symbol, base_window, market):
     state = None
 
     if (
-        drawdown <= SIGNAL_THRESHOLDS["STRONG_BUY"]["drawdown"]
+        pre_drawdown <= SIGNAL_THRESHOLDS["STRONG_BUY"]["drawdown"]
+        # drawdown <= SIGNAL_THRESHOLDS["STRONG_BUY"]["drawdown"]
         and rebound >= SIGNAL_THRESHOLDS["STRONG_BUY"]["rebound"]
         and strong_trend
         and volume_surge
         and healthy_long_term
         and rs_breakout
         and bull_market
-        and pre_drawdown >= min_pre_drawdown
+        # and pre_drawdown <= min_pre_drawdown
         # and up_days
     ):
         state = "🚀 STRONG BUY"
 
     elif (
-        drawdown <= SIGNAL_THRESHOLDS["BUY"]["drawdown"]
+        pre_drawdown <= SIGNAL_THRESHOLDS["BUY"]["drawdown"]
+        # drawdown <= SIGNAL_THRESHOLDS["BUY"]["drawdown"]
         and rebound >= SIGNAL_THRESHOLDS["BUY"]["rebound"]
         and above_ma_short
         and strong_trend
         and rs_strong_mid
         and voo_bull
-        and pre_drawdown >= min_pre_drawdown
+        # and pre_drawdown >= min_pre_drawdown
         # and up_days
     ):
         state = "🚀 BUY"
 
     elif (
-        drawdown <= SIGNAL_THRESHOLDS["WATCH"]["drawdown"]
+        pre_drawdown <= SIGNAL_THRESHOLDS["WATCH"]["drawdown"]
+        # drawdown <= SIGNAL_THRESHOLDS["WATCH"]["drawdown"]
         and rebound >= SIGNAL_THRESHOLDS["WATCH"]["rebound"]
         and above_ma_short
         and rs_strong_short
@@ -202,5 +208,6 @@ def analyze(symbol, base_window, market):
         "state": state,
         "high": round(recent_high, 2),
         "low": round(recent_low, 2),
-        "window": window
+        "window": window,
+        "pre_drawdown": round(pre_drawdown, 2)
     }
