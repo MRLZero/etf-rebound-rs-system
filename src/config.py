@@ -56,6 +56,17 @@ ETFS = {
     # --------- 量子计算 ---------
     "QTUM": {"window": 120, "category": "量子计算/量子技术"},
     "QUBT": {"window": 120, "category": "全球量子计算行业"},
+
+    # --------- 个股 -------------
+    "AAPL": {"window": 120, "category": "苹果"},
+    "AMZN": {"window": 120, "category": "亚马逊"},
+    "GOOG": {"window": 120, "category": "谷歌"},
+    "META": {"window": 120, "category": "META"},
+    "MSFT": {"window": 120, "category": "微软"},
+    "NVDA": {"window": 120, "category": "英伟达"},
+    "TSLA": {"window": 120, "category": "特斯拉"},
+    "IBM": {"window": 120, "category": "IBM"},
+
 }
 
 # =========================================

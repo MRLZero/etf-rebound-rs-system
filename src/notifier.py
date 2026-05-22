@@ -16,3 +16,7 @@ def send_tg(msg):
             "parse_mode": "Markdown"
         }
     )
+
+if __name__ == '__main__':
+    msg = "Hello!"
+    send_tg(msg)
