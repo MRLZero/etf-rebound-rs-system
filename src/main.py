@@ -9,9 +9,9 @@ def main():
     results = []
     market = get_market_regime()
 
-    msg = "📈 *ETF RS Rebound Signals*\n\n"
-    msg += (
-        f"🌎 Market Regime:\n"
+    # msg = "📈 *ETF RS Rebound Signals*\n\n"
+    msg = (
+        f"🌎 Market Regime:\n\n"
         f"VOO > MA200: {'✅' if market['voo_bull'] else '❌'}\n"
         f"QQQ > MA200: {'✅' if market['qqq_bull'] else '❌'}\n\n"
     )
