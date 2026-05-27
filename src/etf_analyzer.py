@@ -64,6 +64,108 @@ def fetch_etf_history(symbol, period_days=365):
     df_filtered.reset_index(drop=True, inplace=True)
     return df_filtered
 
+
+def confirm_volume_trend(volume, price=None,
+                         short_window=5, long_window=20,
+                         min_trend_strength=1.2,  # 短期均量 > 长期均量 * 1.2
+                         require_price_up=True,  # 价格是否需同步上涨
+                         volume_consistency=True,  # 要求量能平稳放大（避免单日跳变）
+                         consistency_threshold=0.3  # 变异系数上限
+                         ):
+    """
+    成交量趋势确认（代替原 volume_surge）
+
+    Parameters
+    ----------
+    volume : pd.Series
+        日成交量序列
+    price : pd.Series, optional
+        收盘价序列，用于价格-成交量一致性验证
+    short_window : int
+        短期均量窗口，默认5日
+    long_window : int
+        长期均量窗口，默认20日
+    min_trend_strength : float
+        短期均量 / 长期均量的最小倍数，默认1.2
+    require_price_up : bool
+        是否要求最新收盘价 > 昨日收盘价（上涨日）
+    volume_consistency : bool
+        是否要求量能平稳放大（防止单日巨量后缩量）
+    consistency_threshold : float
+        变异系数(CV)上限，超过则视为量能不平稳
+
+    Returns
+    -------
+    bool
+        是否满足成交量趋势确认条件
+    dict
+        详细指标（调试用）
+    """
+    if len(volume) < long_window + 1:
+        return False, {}
+
+    # 1. 计算短期和长期均量
+    vol_short_ma = volume.rolling(short_window).mean()
+    vol_long_ma = volume.rolling(long_window).mean()
+
+    latest_vol_short = vol_short_ma.iloc[-1]
+    latest_vol_long = vol_long_ma.iloc[-1]
+
+    # 防止除零
+    if latest_vol_long == 0:
+        return False, {}
+
+    # 2. 趋势强度判断
+    trend_ratio = latest_vol_short / latest_vol_long
+    trend_ok = trend_ratio >= min_trend_strength
+
+    # 3. 量能趋势方向（最近短期均量是否上升）
+    # 比较最近5日的短期均量斜率（简单线性回归或比较两端值）
+    if len(vol_short_ma) >= 10:
+        # 取最近10个值，计算回归斜率（正负判断）
+        y = vol_short_ma.iloc[-10:].values
+        x = np.arange(len(y))
+        slope = np.polyfit(x, y, 1)[0]
+        volume_increasing = slope > 0
+    else:
+        # 退化：直接比较今日均量与5日前
+        if len(vol_short_ma) >= 5:
+            volume_increasing = vol_short_ma.iloc[-1] > vol_short_ma.iloc[-5]
+        else:
+            volume_increasing = True  # 数据不足时假设为真
+
+    # 4. 量能平稳性（变异系数 = 标准差/均值）
+    if volume_consistency and len(volume) >= 20:
+        recent_vol = volume.iloc[-20:]  # 最近20日成交量
+        cv = recent_vol.std() / recent_vol.mean() if recent_vol.mean() > 0 else 1.0
+        consistent = cv <= consistency_threshold
+    else:
+        consistent = True
+
+    # 5. 价格-成交量一致性（可选）
+    price_ok = True
+    if require_price_up and price is not None:
+        # 要求当日收盘价 > 昨日收盘价（反弹日应为阳线或上涨）
+        if len(price) >= 2:
+            price_ok = price.iloc[-1] > price.iloc[-2]
+
+    # 最终判定
+    final = trend_ok and volume_increasing and consistent and price_ok
+
+    indicators = {
+        "vol_short_ma": round(latest_vol_short, 2),
+        "vol_long_ma": round(latest_vol_long, 2),
+        "trend_ratio": round(trend_ratio, 2),
+        "volume_increasing": volume_increasing,
+        "cv": round(cv, 3) if volume_consistency else None,
+        "price_up": price_ok,
+        "final": final
+    }
+
+    return final, indicators
+
+
+
 # -----------------------------
 # ETF 分析函数
 # -----------------------------
@@ -166,15 +268,30 @@ def analyze(symbol, base_window, market):
     # -----------------------------
     # 成交量
     # -----------------------------
-    latest_vol = float(volume.iloc[-1])
+    # latest_vol = float(volume.iloc[-1])
+    #
+    # vol20 = float(
+    #     volume.rolling(20).mean().iloc[-1]
+    # )
 
-    vol20 = float(
-        volume.rolling(20).mean().iloc[-1]
+    volume_ok, vol_indicators = confirm_volume_trend(
+        volume=volume,
+        price=close,  # 传入价格用于上涨确认
+        short_window=5,
+        long_window=20,
+        min_trend_strength=1.2,  # 5日均量 > 20日均量 * 1.2
+        require_price_up=False,
+        volume_consistency=True,
+        consistency_threshold=0.4  # 变异系数 ≤ 0.4 视为平稳
     )
 
-    volume_surge = (
-        latest_vol > vol20 * VOLUME_SURGE_FACTOR
-    )
+    # 同时保留原有的单日放量作为辅助（可选），但主条件改用 volume_ok
+    # 建议原 volume_surge 标志位改为：
+    volume_surge = volume_ok  # 重写判断
+
+    # volume_surge = (
+    #     latest_vol > vol20 * VOLUME_SURGE_FACTOR
+    # )
 
     # -----------------------------
     # Relative Strength
@@ -217,7 +334,7 @@ def analyze(symbol, base_window, market):
     # -----------------------------
     # 信号判定
     # -----------------------------
-    state = None
+    # state = None
 
     # =============================
     # STRONG BUY
