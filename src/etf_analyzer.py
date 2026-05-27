@@ -74,6 +74,10 @@ def analyze(symbol, base_window, market):
         data = fetch_etf_history(symbol=symbol)
         voo_data = fetch_etf_history(symbol="VOO")
 
+        min_len = min(len(data), len(voo_data))
+        data = pd.DataFrame(data).iloc[-min_len:].reset_index(drop=True)
+        voo_data = pd.DataFrame(voo_data).iloc[-min_len:].reset_index(drop=True)
+
     except Exception as e:
         print(f"{symbol} download error: {e}")
         return None
