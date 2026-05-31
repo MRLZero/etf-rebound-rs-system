@@ -1,6 +1,6 @@
 # coding=utf-8
-# import yfinance as yf
-import akshare as ak
+# import akshare as ak
+import yfinance as yf
 
 import pandas as pd
 import numpy as np
@@ -33,37 +33,283 @@ def consecutive_up_days(close, n=3):
 # -----------------------------
 # ETF 分析函数
 # -----------------------------
-def fetch_etf_history(symbol, period_days=365):
-    """
-    获取 ETF 历史行情，并统一截取最近 period_days 的数据
+# def fetch_etf_history(symbol, period_days=365):
+#     """
+#     获取 ETF 历史行情，并统一截取最近 period_days 的数据
+#
+#     symbol: str, ETF 代码，如 '510300'（沪深300 ETF）
+#     period_days: int, 最近多少天数据
+#     """
+#     try:
+#         # 获取 ETF 日线行情
+#         # akshare 里沪深ETF一般使用 ak.fund_etf_daily
+#         # df = ak.fund_etf_daily(symbol)
+#         df = ak.stock_us_daily(symbol=symbol, adjust='qfq')
+#     except Exception as e:
+#         print(f"Error fetching {symbol}: {e}")
+#         return None
+#
+#     if df.empty:
+#         return None
+#
+#     # df 默认列名：date, open, high, low, close, volume, amount
+#     df['date'] = pd.to_datetime(df['date'])
+#     df = df.sort_values('date')  # 按时间升序排序
+#
+#     # 获取最近 period_days 的数据
+#     end_date = df['date'].max()
+#     start_date = end_date - pd.Timedelta(days=period_days)
+#     df_filtered = df[df['date'] >= start_date].copy()
+#
+#     df_filtered.reset_index(drop=True, inplace=True)
+#     return df_filtered
 
-    symbol: str, ETF 代码，如 '510300'（沪深300 ETF）
-    period_days: int, 最近多少天数据
+# coding=utf-8
+
+
+
+
+# def fetch_etf_history(symbol):
+#     """
+#     获取美股 ETF / 个股历史行情
+#
+#     数据源：
+#         yfinance
+#
+#     特点：
+#         - 自动前复权（auto_adjust=True）
+#         - 统一返回格式
+#         - 下载最近2年数据
+#         - 支持ETF和个股
+#         - 与原AkShare代码兼容
+#
+#     返回字段：
+#         date
+#         open
+#         high
+#         low
+#         close
+#         volume
+#     """
+#
+#     try:
+#
+#         df = yf.download(
+#             tickers=symbol,
+#             period="2y",
+#             interval="1d",
+#             auto_adjust=True,
+#             progress=False,
+#             threads=False,
+#             multi_level_index=False
+#         )
+#
+#     except Exception as e:
+#
+#         print(f"Error fetching {symbol}: {e}")
+#         return None
+#
+#     if df is None or df.empty:
+#
+#         print(f"{symbol}: empty dataframe")
+#
+#         return None
+#
+#     try:
+#
+#         # -----------------------------
+#         # yfinance部分版本返回MultiIndex
+#         # -----------------------------
+#         if isinstance(df.columns, pd.MultiIndex):
+#
+#             df.columns = df.columns.get_level_values(0)
+#
+#         # -----------------------------
+#         # index -> date
+#         # -----------------------------
+#         df = df.reset_index()
+#
+#         # -----------------------------
+#         # 统一字段名
+#         # -----------------------------
+#         rename_map = {
+#             "Date": "date",
+#             "Open": "open",
+#             "High": "high",
+#             "Low": "low",
+#             "Close": "close",
+#             "Volume": "volume"
+#         }
+#
+#         df.rename(
+#             columns=rename_map,
+#             inplace=True
+#         )
+#
+#         # -----------------------------
+#         # 保留策略需要字段
+#         # -----------------------------
+#         required_cols = [
+#             "date",
+#             "open",
+#             "high",
+#             "low",
+#             "close",
+#             "volume"
+#         ]
+#
+#         missing_cols = [
+#             c for c in required_cols
+#             if c not in df.columns
+#         ]
+#
+#         if missing_cols:
+#
+#             print(
+#                 f"{symbol}: missing columns {missing_cols}"
+#             )
+#
+#             return None
+#
+#         df = df[required_cols]
+#
+#         # -----------------------------
+#         # 数据类型处理
+#         # -----------------------------
+#         df["date"] = pd.to_datetime(df["date"])
+#
+#         numeric_cols = [
+#             "open",
+#             "high",
+#             "low",
+#             "close",
+#             "volume"
+#         ]
+#
+#         for col in numeric_cols:
+#
+#             df[col] = pd.to_numeric(
+#                 df[col],
+#                 errors="coerce"
+#             )
+#
+#         # -----------------------------
+#         # 删除异常行
+#         # -----------------------------
+#         df.dropna(
+#             subset=["close"],
+#             inplace=True
+#         )
+#
+#         # -----------------------------
+#         # 时间升序
+#         # -----------------------------
+#         df.sort_values(
+#             "date",
+#             inplace=True
+#         )
+#
+#         df.reset_index(
+#             drop=True,
+#             inplace=True
+#         )
+#
+#         # print(symbol)
+#         # print(df.columns)
+#
+#         return df
+#
+#     except Exception as e:
+#
+#         print(
+#             f"{symbol} format error: {e}"
+#         )
+#
+#         return None
+
+def fetch_etf_history(symbol):
     """
+    获取美股 ETF / 个股历史行情（修复版：保留时间索引）
+
+    核心变化：
+    1. date 不再只是普通列 → 设为 index
+    2. RS / benchmark 可安全按时间对齐
+    3. 同时兼容 data["close"] 写法
+    """
+
     try:
-        # 获取 ETF 日线行情
-        # akshare 里沪深ETF一般使用 ak.fund_etf_daily
-        # df = ak.fund_etf_daily(symbol)
-        df = ak.stock_us_daily(symbol=symbol, adjust='qfq')
+        df = yf.download(
+            tickers=symbol,
+            period="2y",
+            interval="1d",
+            auto_adjust=True,
+            progress=False,
+            threads=False,
+            multi_level_index=False
+        )
+
     except Exception as e:
         print(f"Error fetching {symbol}: {e}")
         return None
 
-    if df.empty:
+    if df is None or df.empty:
+        print(f"{symbol}: empty dataframe")
         return None
 
-    # df 默认列名：date, open, high, low, close, volume, amount
-    df['date'] = pd.to_datetime(df['date'])
-    df = df.sort_values('date')  # 按时间升序排序
+    try:
+        # -----------------------------
+        # MultiIndex 兼容
+        # -----------------------------
+        if isinstance(df.columns, pd.MultiIndex):
+            df.columns = df.columns.get_level_values(0)
 
-    # 获取最近 period_days 的数据
-    end_date = df['date'].max()
-    start_date = end_date - pd.Timedelta(days=period_days)
-    df_filtered = df[df['date'] >= start_date].copy()
+        # -----------------------------
+        # index -> column
+        # -----------------------------
+        df = df.reset_index()
 
-    df_filtered.reset_index(drop=True, inplace=True)
-    return df_filtered
+        rename_map = {
+            "Date": "date",
+            "Open": "open",
+            "High": "high",
+            "Low": "low",
+            "Close": "close",
+            "Volume": "volume"
+        }
 
+        df.rename(columns=rename_map, inplace=True)
+
+        required_cols = ["date", "open", "high", "low", "close", "volume"]
+
+        if any(c not in df.columns for c in required_cols):
+            print(f"{symbol}: missing columns")
+            return None
+
+        df = df[required_cols]
+
+        # -----------------------------
+        # 类型处理
+        # -----------------------------
+        df["date"] = pd.to_datetime(df["date"])
+
+        for col in ["open", "high", "low", "close", "volume"]:
+            df[col] = pd.to_numeric(df[col], errors="coerce")
+
+        df.dropna(subset=["close"], inplace=True)
+
+        df.sort_values("date", inplace=True)
+        df.reset_index(drop=True, inplace=True)
+
+        # =============================
+        # ⭐关键改动：保留 datetime index
+        # =============================
+        df.set_index("date", inplace=True)
+
+        return df
+
+    except Exception as e:
+        print(f"{symbol} format error: {e}")
+        return None
 
 def confirm_volume_trend(volume, price=None,
                          short_window=5, long_window=20,
@@ -165,24 +411,91 @@ def confirm_volume_trend(volume, price=None,
     return final, indicators
 
 
+# def get_rs_ratio(close, voo_close):
+#
+#     min_len = min(
+#         len(close),
+#         len(voo_close)
+#     )
+#
+#     close_tmp = (
+#         close.iloc[-min_len:]
+#         .reset_index(drop=True)
+#     )
+#
+#     voo_close_tmp = (
+#         voo_close.iloc[-min_len:]
+#         .reset_index(drop=True)
+#     )
+#
+#     return close_tmp / voo_close_tmp
+
+def get_rs_ratio(close, benchmark_close, normalized=False, norm_window=20):
+    """
+    严格时间对齐 + 可选 normalized RS
+    """
+
+    close = pd.Series(close).copy()
+    benchmark_close = pd.Series(benchmark_close).copy()
+
+    if not isinstance(close.index, pd.DatetimeIndex):
+        close.index = pd.RangeIndex(len(close))
+
+    if not isinstance(benchmark_close.index, pd.DatetimeIndex):
+        benchmark_close.index = pd.RangeIndex(len(benchmark_close))
+
+    all_index = close.index.union(benchmark_close.index)
+
+    close = close.reindex(all_index).ffill()
+    benchmark_close = benchmark_close.reindex(all_index).ffill()
+
+    df = pd.DataFrame({
+        "asset": close,
+        "benchmark": benchmark_close
+    }).dropna()
+
+    df = df[df["benchmark"] != 0]
+
+    # -----------------------------
+    # base RS
+    # -----------------------------
+    base_rs = df["asset"] / df["benchmark"]
+
+    # -----------------------------
+    # normalized RS（增强版）
+    # -----------------------------
+    if normalized:
+        asset_norm = df["asset"] / df["asset"].rolling(norm_window).mean()
+        bench_norm = df["benchmark"] / df["benchmark"].rolling(norm_window).mean()
+
+        rs = asset_norm / bench_norm
+    else:
+        rs = base_rs
+
+    rs = rs.replace([np.inf, -np.inf], np.nan).dropna()
+
+    return rs
+
 
 # -----------------------------
 # ETF 分析函数
 # -----------------------------
-def analyze(symbol, base_window, market):
+def analyze(
+        symbol,
+        base_window,
+        market,
+        benchmark_data
+):
     """分析单只ETF信号"""
 
     try:
         data = fetch_etf_history(symbol=symbol)
-        voo_data = fetch_etf_history(symbol="VOO")
-
-        min_len = min(len(data), len(voo_data))
-        data = pd.DataFrame(data).iloc[-min_len:].reset_index(drop=True)
-        voo_data = pd.DataFrame(voo_data).iloc[-min_len:].reset_index(drop=True)
 
     except Exception as e:
         print(f"{symbol} download error: {e}")
         return None
+
+    voo_data = benchmark_data
 
     if data.empty or voo_data.empty:
         return None
@@ -209,8 +522,6 @@ def analyze(symbol, base_window, market):
     # -----------------------------
     after_high = recent_data.loc[high_idx:]
     recent_low = after_high.min()
-    low_idx = after_high.idxmin()
-    # 当前价格
     price = recent_data.iloc[-1]
 
     # -----------------------------
@@ -279,7 +590,7 @@ def analyze(symbol, base_window, market):
         price=close,  # 传入价格用于上涨确认
         short_window=5,
         long_window=20,
-        min_trend_strength=1.2,  # 5日均量 > 20日均量 * 1.2
+        min_trend_strength=1.1,  # 5日均量 > 20日均量 * 1.2
         require_price_up=False,
         volume_consistency=True,
         consistency_threshold=0.4  # 变异系数 ≤ 0.4 视为平稳
@@ -296,7 +607,7 @@ def analyze(symbol, base_window, market):
     # -----------------------------
     # Relative Strength
     # -----------------------------
-    rs_ratio = close / voo_close
+    rs_ratio = get_rs_ratio(close, voo_close)
 
     rs_now = float(rs_ratio.iloc[-1])
 
@@ -334,7 +645,6 @@ def analyze(symbol, base_window, market):
     # -----------------------------
     # 信号判定
     # -----------------------------
-    # state = None
 
     # =============================
     # STRONG BUY
@@ -342,7 +652,7 @@ def analyze(symbol, base_window, market):
     if (
         pre_drawdown <= SIGNAL_THRESHOLDS["STRONG_BUY"]["drawdown"]
         and rebound >= SIGNAL_THRESHOLDS["STRONG_BUY"]["rebound"]
-        and recovery_ratio <= 0.5
+        and recovery_ratio <= 0.7
         and strong_trend
         and volume_surge
         and healthy_long_term
@@ -371,7 +681,7 @@ def analyze(symbol, base_window, market):
     elif (
         pre_drawdown <= SIGNAL_THRESHOLDS["WATCH"]["drawdown"]
         and rebound >= SIGNAL_THRESHOLDS["WATCH"]["rebound"]
-        and recovery_ratio <= 0.85
+        and recovery_ratio <= 0.7
         and above_ma_short
         and rs_strong_short
     ):
