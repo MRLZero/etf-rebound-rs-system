@@ -590,7 +590,7 @@ def analyze(
         price=close,  # 传入价格用于上涨确认
         short_window=5,
         long_window=20,
-        min_trend_strength=1.1,  # 5日均量 > 20日均量 * 1.2
+        min_trend_strength=1.1,  # 5日均量 > 20日均量 * min_trend_strength
         require_price_up=False,
         volume_consistency=True,
         consistency_threshold=0.4  # 变异系数 ≤ 0.4 视为平稳
