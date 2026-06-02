@@ -344,7 +344,8 @@ def analyze(
     # -----------------------------
     # 动态 window
     # -----------------------------
-    window = get_dynamic_window(close, base_window)
+    # window = get_dynamic_window(close, base_window)
+    window = base_window
     recent_data = close.iloc[-window:]
 
     # -----------------------------
