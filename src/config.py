@@ -124,7 +124,7 @@ MA_LONG = 200
 # =========================================
 # 量化策略可调参数
 VOLUME_SURGE_FACTOR = 1.3  # 成交量放大倍数
-RS_BREAKOUT_FACTOR = 0.9  # RS接近新高的比例
+RS_BREAKOUT_FACTOR = 0.8  # RS接近新高的比例
 
 # 基准ETF
 BENCHMARK = "VOO"

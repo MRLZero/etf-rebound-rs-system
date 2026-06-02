@@ -1,5 +1,5 @@
 # coding=utf-8
-# import akshare as ak
+import akshare as ak
 import yfinance as yf
 
 import pandas as pd
@@ -63,169 +63,6 @@ def consecutive_up_days(close, n=3):
 #
 #     df_filtered.reset_index(drop=True, inplace=True)
 #     return df_filtered
-
-# coding=utf-8
-
-
-
-
-# def fetch_etf_history(symbol):
-#     """
-#     获取美股 ETF / 个股历史行情
-#
-#     数据源：
-#         yfinance
-#
-#     特点：
-#         - 自动前复权（auto_adjust=True）
-#         - 统一返回格式
-#         - 下载最近2年数据
-#         - 支持ETF和个股
-#         - 与原AkShare代码兼容
-#
-#     返回字段：
-#         date
-#         open
-#         high
-#         low
-#         close
-#         volume
-#     """
-#
-#     try:
-#
-#         df = yf.download(
-#             tickers=symbol,
-#             period="2y",
-#             interval="1d",
-#             auto_adjust=True,
-#             progress=False,
-#             threads=False,
-#             multi_level_index=False
-#         )
-#
-#     except Exception as e:
-#
-#         print(f"Error fetching {symbol}: {e}")
-#         return None
-#
-#     if df is None or df.empty:
-#
-#         print(f"{symbol}: empty dataframe")
-#
-#         return None
-#
-#     try:
-#
-#         # -----------------------------
-#         # yfinance部分版本返回MultiIndex
-#         # -----------------------------
-#         if isinstance(df.columns, pd.MultiIndex):
-#
-#             df.columns = df.columns.get_level_values(0)
-#
-#         # -----------------------------
-#         # index -> date
-#         # -----------------------------
-#         df = df.reset_index()
-#
-#         # -----------------------------
-#         # 统一字段名
-#         # -----------------------------
-#         rename_map = {
-#             "Date": "date",
-#             "Open": "open",
-#             "High": "high",
-#             "Low": "low",
-#             "Close": "close",
-#             "Volume": "volume"
-#         }
-#
-#         df.rename(
-#             columns=rename_map,
-#             inplace=True
-#         )
-#
-#         # -----------------------------
-#         # 保留策略需要字段
-#         # -----------------------------
-#         required_cols = [
-#             "date",
-#             "open",
-#             "high",
-#             "low",
-#             "close",
-#             "volume"
-#         ]
-#
-#         missing_cols = [
-#             c for c in required_cols
-#             if c not in df.columns
-#         ]
-#
-#         if missing_cols:
-#
-#             print(
-#                 f"{symbol}: missing columns {missing_cols}"
-#             )
-#
-#             return None
-#
-#         df = df[required_cols]
-#
-#         # -----------------------------
-#         # 数据类型处理
-#         # -----------------------------
-#         df["date"] = pd.to_datetime(df["date"])
-#
-#         numeric_cols = [
-#             "open",
-#             "high",
-#             "low",
-#             "close",
-#             "volume"
-#         ]
-#
-#         for col in numeric_cols:
-#
-#             df[col] = pd.to_numeric(
-#                 df[col],
-#                 errors="coerce"
-#             )
-#
-#         # -----------------------------
-#         # 删除异常行
-#         # -----------------------------
-#         df.dropna(
-#             subset=["close"],
-#             inplace=True
-#         )
-#
-#         # -----------------------------
-#         # 时间升序
-#         # -----------------------------
-#         df.sort_values(
-#             "date",
-#             inplace=True
-#         )
-#
-#         df.reset_index(
-#             drop=True,
-#             inplace=True
-#         )
-#
-#         # print(symbol)
-#         # print(df.columns)
-#
-#         return df
-#
-#     except Exception as e:
-#
-#         print(
-#             f"{symbol} format error: {e}"
-#         )
-#
-#         return None
 
 def fetch_etf_history(symbol):
     """
@@ -573,7 +410,7 @@ def analyze(
     )
 
     healthy_long_term = (
-        price > ma_long * 0.9
+        price > ma_long * 0.8
     )
 
     # -----------------------------
