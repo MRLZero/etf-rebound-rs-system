@@ -652,7 +652,7 @@ def analyze(
     if (
         pre_drawdown <= SIGNAL_THRESHOLDS["STRONG_BUY"]["drawdown"]
         and rebound >= SIGNAL_THRESHOLDS["STRONG_BUY"]["rebound"]
-        and recovery_ratio <= 0.7
+        and recovery_ratio <= 0.8
         and strong_trend
         and volume_surge
         and healthy_long_term
@@ -667,7 +667,7 @@ def analyze(
     elif (
         pre_drawdown <= SIGNAL_THRESHOLDS["BUY"]["drawdown"]
         and rebound >= SIGNAL_THRESHOLDS["BUY"]["rebound"]
-        and recovery_ratio <= 0.7
+        and recovery_ratio <= 0.8
         and above_ma_short
         and strong_trend
         and rs_strong_mid
@@ -681,7 +681,7 @@ def analyze(
     elif (
         pre_drawdown <= SIGNAL_THRESHOLDS["WATCH"]["drawdown"]
         and rebound >= SIGNAL_THRESHOLDS["WATCH"]["rebound"]
-        and recovery_ratio <= 0.7
+        and recovery_ratio <= 0.8
         and above_ma_short
         and rs_strong_short
     ):
