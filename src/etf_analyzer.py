@@ -5,6 +5,7 @@ import yfinance as yf
 import pandas as pd
 import numpy as np
 from config import MA_SHORT, MA_MID, MA_LONG, SIGNAL_THRESHOLDS, VOLUME_SURGE_FACTOR, RS_BREAKOUT_FACTOR
+from valuation import get_valuation
 
 # -----------------------------
 # 动态 window 计算函数
@@ -31,39 +32,8 @@ def consecutive_up_days(close, n=3):
     return (close[-n:].values > close[-n-1:-1].values).all()
 
 # -----------------------------
-# ETF 分析函数
+# 获取 ETF 历史行情
 # -----------------------------
-# def fetch_etf_history(symbol, period_days=365):
-#     """
-#     获取 ETF 历史行情，并统一截取最近 period_days 的数据
-#
-#     symbol: str, ETF 代码，如 '510300'（沪深300 ETF）
-#     period_days: int, 最近多少天数据
-#     """
-#     try:
-#         # 获取 ETF 日线行情
-#         # akshare 里沪深ETF一般使用 ak.fund_etf_daily
-#         # df = ak.fund_etf_daily(symbol)
-#         df = ak.stock_us_daily(symbol=symbol, adjust='qfq')
-#     except Exception as e:
-#         print(f"Error fetching {symbol}: {e}")
-#         return None
-#
-#     if df.empty:
-#         return None
-#
-#     # df 默认列名：date, open, high, low, close, volume, amount
-#     df['date'] = pd.to_datetime(df['date'])
-#     df = df.sort_values('date')  # 按时间升序排序
-#
-#     # 获取最近 period_days 的数据
-#     end_date = df['date'].max()
-#     start_date = end_date - pd.Timedelta(days=period_days)
-#     df_filtered = df[df['date'] >= start_date].copy()
-#
-#     df_filtered.reset_index(drop=True, inplace=True)
-#     return df_filtered
-
 def fetch_etf_history(symbol):
     """
     获取美股 ETF / 个股历史行情（修复版：保留时间索引）
@@ -248,25 +218,6 @@ def confirm_volume_trend(volume, price=None,
     return final, indicators
 
 
-# def get_rs_ratio(close, voo_close):
-#
-#     min_len = min(
-#         len(close),
-#         len(voo_close)
-#     )
-#
-#     close_tmp = (
-#         close.iloc[-min_len:]
-#         .reset_index(drop=True)
-#     )
-#
-#     voo_close_tmp = (
-#         voo_close.iloc[-min_len:]
-#         .reset_index(drop=True)
-#     )
-#
-#     return close_tmp / voo_close_tmp
-
 def get_rs_ratio(close, benchmark_close, normalized=False, norm_window=20):
     """
     严格时间对齐 + 可选 normalized RS
@@ -417,30 +368,18 @@ def analyze(
     # -----------------------------
     # 成交量
     # -----------------------------
-    # latest_vol = float(volume.iloc[-1])
-    #
-    # vol20 = float(
-    #     volume.rolling(20).mean().iloc[-1]
-    # )
-
     volume_ok, vol_indicators = confirm_volume_trend(
         volume=volume,
-        price=close,  # 传入价格用于上涨确认
+        price=close,
         short_window=5,
         long_window=20,
-        min_trend_strength=1.1,  # 5日均量 > 20日均量 * min_trend_strength
+        min_trend_strength=1.1,
         require_price_up=False,
         volume_consistency=True,
-        consistency_threshold=0.4  # 变异系数 ≤ 0.4 视为平稳
+        consistency_threshold=0.4
     )
 
-    # 同时保留原有的单日放量作为辅助（可选），但主条件改用 volume_ok
-    # 建议原 volume_surge 标志位改为：
-    volume_surge = volume_ok  # 重写判断
-
-    # volume_surge = (
-    #     latest_vol > vol20 * VOLUME_SURGE_FACTOR
-    # )
+    volume_surge = volume_ok
 
     # -----------------------------
     # Relative Strength
@@ -529,6 +468,12 @@ def analyze(
         state = "⚪ No-Trade"
 
     # -----------------------------
+    # 估值数据
+    # -----------------------------
+    print(f"  Fetching valuation for {symbol}...")
+    valuation = get_valuation(symbol)
+
+    # -----------------------------
     # 返回结果
     # -----------------------------
     return {
@@ -543,6 +488,14 @@ def analyze(
         "state": state,
         "high": round(recent_high, 2),
         "low": round(recent_low, 2),
-        "window": window
-    }
+        "window": window,
 
+        # ---- 估值字段 ----
+        "pe_current":   valuation["pe_current"],
+        "pe_5y_low":    valuation["pe_5y_low"],
+        "pe_5y_high":   valuation["pe_5y_high"],
+        "pe_5y_median": valuation["pe_5y_median"],
+        "pe_5y_mean":   valuation["pe_5y_mean"],
+        "pe_percentile": valuation["pe_percentile"],
+        "pe_note":      valuation["pe_note"],
+    }

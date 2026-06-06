@@ -22,17 +22,47 @@ def send_tg(msg):
 from math import ceil
 
 
+# -----------------------------
+# 估值字段格式化
+# -----------------------------
+def _fmt_valuation(result: dict) -> str:
+    """
+    将估值字段格式化为可读字符串。
+
+    有完整5年区间时输出：
+        PE: 28.5  [5Y: 12.3 ~ 45.6 | med 25.1 | pct 62%]
+
+    仅有当前PE时输出：
+        PE: 28.5 (current only)
+
+    无数据时输出：
+        PE: N/A
+    """
+    pe_cur = result.get("pe_current")
+    pe_low = result.get("pe_5y_low")
+    pe_high = result.get("pe_5y_high")
+    pe_med = result.get("pe_5y_median")
+    pe_pct = result.get("pe_percentile")
+    pe_note = result.get("pe_note", "")
+
+    if pe_cur is None:
+        return "PE: N/A"
+
+    cur_str = f"PE: {pe_cur}"
+
+    if pe_low is not None and pe_high is not None:
+        pct_str = f" | pct {pe_pct:.0f}%" if pe_pct is not None else ""
+        range_str = f"  [5Y: {pe_low} ~ {pe_high} | med {pe_med}{pct_str}]"
+        return cur_str + range_str
+    else:
+        return f"{cur_str} ({pe_note})"
+
+
 def build_messages(results, max_items=15):
 
     # -----------------------------
-    # 过滤 No-Trade
+    # 过滤 None
     # -----------------------------
-    # filtered = [
-    #
-    #     r for r in results
-    #
-    #     if r["state"] != "⚪ No-Trade"
-    # ]
     filtered = [
         r for r in results
         if r is not None
@@ -42,7 +72,6 @@ def build_messages(results, max_items=15):
     # 信号优先级
     # -----------------------------
     priority = {
-
         "🚀 STRONG BUY": 1,
         "🚀 BUY": 2,
         "⚪ WATCH": 3,
@@ -55,11 +84,8 @@ def build_messages(results, max_items=15):
     # 2. recovery_ratio
     # -----------------------------
     filtered.sort(
-
         key=lambda x: (
-
             priority.get(x["state"], 99),
-
             x["recovery_ratio"]
         )
     )
@@ -93,16 +119,18 @@ def build_messages(results, max_items=15):
             # 新 signal section
             # -----------------------------
             if result["state"] != current_signal:
-
                 current_signal = result["state"]
-
                 msg += f"\n{current_signal}\n\n"
+
+            # -----------------------------
+            # 估值行
+            # -----------------------------
+            valuation_line = _fmt_valuation(result)
 
             # -----------------------------
             # 行内容
             # -----------------------------
             line = (
-
                 f"{result['symbol']} {result['category']}\n"
                 f"Price: ${result['price']}\n"
                 f"Recent High: ${result['high']}\n"
@@ -111,10 +139,8 @@ def build_messages(results, max_items=15):
                 f"cRebound: +{result['rebound']}%\n"
                 f"Recovery Ratio: {result['recovery_ratio']}\n"
                 f"pDrawdown: {result['pre_drawdown']}%\n"
-                # f"RS Ratio: {result['rs']}\n"
+                f"{valuation_line}\n"
                 f"Window: {result['window']}\n\n"
-                # f"{result['state']} \n\n"
-
             )
 
             msg += line
@@ -128,16 +154,12 @@ def build_messages(results, max_items=15):
 # Send Telegram Messages
 # -----------------------------
 def send_telegram_messages(results):
-
-    """
-    Telegram 推送
-    """
+    """Telegram 推送"""
 
     try:
-
         messages = build_messages(results)
         for msg in messages:
-            send_tg(msg)
+            # send_tg(msg)
             print(msg)
 
         print(
@@ -147,6 +169,7 @@ def send_telegram_messages(results):
 
     except Exception:
         print("Telegram send error")
+
 
 if __name__ == '__main__':
     msg = "Hello!"
