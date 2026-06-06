@@ -45,7 +45,7 @@ def main():
         f"QQQ > MA200: {'✅' if market['qqq_bull'] else '❌'}\n\n"
     )
 
-    # send_tg(msg)
+    send_tg(msg)
 
     # ---------------------------------
     # ETF扫描

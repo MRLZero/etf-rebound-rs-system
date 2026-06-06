@@ -26,6 +26,5 @@ jobs:
         env:
           TG_TOKEN: ${{ secrets.TG_TOKEN }}
           TG_CHAT_ID: ${{ secrets.TG_CHAT_ID }}
-          FMP_API_KEY: ${{ secrets.FMP_API_KEY }}
         run: |
           python src/main.py

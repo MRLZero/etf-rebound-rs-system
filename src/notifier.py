@@ -26,36 +26,9 @@ from math import ceil
 # 估值字段格式化
 # -----------------------------
 def _fmt_valuation(result: dict) -> str:
-    """
-    将估值字段格式化为可读字符串。
-
-    有完整5年区间时输出：
-        PE: 28.5  [5Y: 12.3 ~ 45.6 | med 25.1 | pct 62%]
-
-    仅有当前PE时输出：
-        PE: 28.5 (current only)
-
-    无数据时输出：
-        PE: N/A
-    """
+    """PE 格式化：PE: 28.5 或 PE: N/A"""
     pe_cur = result.get("pe_current")
-    pe_low = result.get("pe_5y_low")
-    pe_high = result.get("pe_5y_high")
-    pe_med = result.get("pe_5y_median")
-    pe_pct = result.get("pe_percentile")
-    pe_note = result.get("pe_note", "")
-
-    if pe_cur is None:
-        return "PE: N/A"
-
-    cur_str = f"PE: {pe_cur}"
-
-    if pe_low is not None and pe_high is not None:
-        pct_str = f" | pct {pe_pct:.0f}%" if pe_pct is not None else ""
-        range_str = f"  [5Y: {pe_low} ~ {pe_high} | med {pe_med}{pct_str}]"
-        return cur_str + range_str
-    else:
-        return f"{cur_str} ({pe_note})"
+    return f"PE: {pe_cur}" if pe_cur is not None else "PE: N/A"
 
 
 def build_messages(results, max_items=15):
@@ -159,7 +132,7 @@ def send_telegram_messages(results):
     try:
         messages = build_messages(results)
         for msg in messages:
-            # send_tg(msg)
+            send_tg(msg)
             print(msg)
 
         print(
