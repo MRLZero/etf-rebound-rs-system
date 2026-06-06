@@ -27,7 +27,7 @@ from bs4 import BeautifulSoup
 # ─────────────────────────────────────────
 # FMP 配置
 # ─────────────────────────────────────────
-_FMP_API_KEY = os.getenv("FMP_API_KEY", "")
+_FMP_API_KEY = os.getenv("FMP_API_KEY")
 _FMP_BASE = "https://financialmodelingprep.com/api/v3"
 
 # ─────────────────────────────────────────
