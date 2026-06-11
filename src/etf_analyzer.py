@@ -118,6 +118,42 @@ def fetch_etf_history(symbol):
         print(f"{symbol} format error: {e}")
         return None
 
+# -----------------------------
+# ETF 分析函数
+# -----------------------------
+# def fetch_etf_history(symbol, period_days=365):
+#     """
+#     获取 ETF 历史行情，并统一截取最近 period_days 的数据
+#
+#     symbol: str, ETF 代码，如 '510300'（沪深300 ETF）
+#     period_days: int, 最近多少天数据
+#     """
+#     try:
+#         # 获取 ETF 日线行情
+#         # akshare 里沪深ETF一般使用 ak.fund_etf_daily
+#         # df = ak.fund_etf_daily(symbol)
+#         df = ak.stock_us_daily(symbol=symbol, adjust='qfq')
+#     except Exception as e:
+#         print(f"Error fetching {symbol}: {e}")
+#         return None
+#
+#     if df.empty:
+#         return None
+#
+#     # df 默认列名：date, open, high, low, close, volume, amount
+#     df['date'] = pd.to_datetime(df['date'])
+#     df = df.sort_values('date')  # 按时间升序排序
+#
+#     # 获取最近 period_days 的数据
+#     end_date = df['date'].max()
+#     start_date = end_date - pd.Timedelta(days=period_days)
+#     df_filtered = df[df['date'] >= start_date].copy()
+#
+#     df_filtered.reset_index(drop=True, inplace=True)
+#     df_filtered.set_index("date", inplace=True)
+#
+#     return df_filtered
+
 def confirm_volume_trend(volume, price=None,
                          short_window=5, long_window=20,
                          min_trend_strength=1.2,  # 短期均量 > 长期均量 * 1.2
@@ -424,6 +460,20 @@ def analyze(
     # -----------------------------
 
     # =============================
+    # 新增：周线趋势过滤器
+    # =============================
+    # 将日线转换为周线（取周收盘）
+    weekly_close = close.resample("W-FRI").last()
+    weekly_ma12 = weekly_close.rolling(12).mean().iloc[-1]  # 约3个月
+    weekly_ma24 = weekly_close.rolling(24).mean().iloc[-1]  # 约6个月
+
+    weekly_trend_up = weekly_ma12 > weekly_ma24  # 周线趋势向上
+
+    # -----------------------------
+    # 信号判定
+    # -----------------------------
+
+    # =============================
     # STRONG BUY
     # =============================
     if (
@@ -435,6 +485,7 @@ def analyze(
         and healthy_long_term
         and rs_breakout
         and bull_market
+        and weekly_trend_up
     ):
         state = "🚀 STRONG BUY"
 
@@ -449,6 +500,7 @@ def analyze(
         and strong_trend
         and rs_strong_mid
         and voo_bull
+        and weekly_trend_up
     ):
         state = "🚀 BUY"
 
