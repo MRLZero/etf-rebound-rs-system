@@ -463,11 +463,10 @@ def analyze(
     # 新增：周线趋势过滤器
     # =============================
     # 将日线转换为周线（取周收盘）
-    weekly_close = close.resample("W-FRI").last()
-    weekly_ma12 = weekly_close.rolling(12).mean().iloc[-1]  # 约3个月
-    weekly_ma24 = weekly_close.rolling(24).mean().iloc[-1]  # 约6个月
-
-    weekly_trend_up = weekly_ma12 > weekly_ma24  # 周线趋势向上
+    # weekly_close = close.resample("W-FRI").last()
+    # weekly_ma12 = weekly_close.rolling(12).mean().iloc[-1]  # 约3个月
+    # weekly_ma24 = weekly_close.rolling(24).mean().iloc[-1]  # 约6个月
+    # weekly_trend_up = weekly_ma12 > weekly_ma24  # 周线趋势向上
 
     # -----------------------------
     # 信号判定
@@ -485,7 +484,7 @@ def analyze(
         and healthy_long_term
         and rs_breakout
         and bull_market
-        and weekly_trend_up
+        # and weekly_trend_up
     ):
         state = "🚀 STRONG BUY"
 
@@ -500,7 +499,7 @@ def analyze(
         and strong_trend
         and rs_strong_mid
         and voo_bull
-        and weekly_trend_up
+        # and weekly_trend_up
     ):
         state = "🚀 BUY"
 
