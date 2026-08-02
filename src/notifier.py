@@ -14,7 +14,7 @@ def send_tg(msg):
         json={
             "chat_id": TG_CHAT_ID,
             "text": msg,
-            "parse_mode": "Markdown"
+            "parse_mode": "HTML"
         }
     )
 
