@@ -491,6 +491,10 @@ def analyze(
         "window": window,
 
         # ---- 估值字段 ----
-        "pe_current": valuation["pe_current"],
-        "pe_note":    valuation["pe_note"],
+        "pe_current":    valuation["pe_current"],
+        "pe_5y_low":     valuation["pe_5y_low"],
+        "pe_5y_high":    valuation["pe_5y_high"],
+        "pe_5y_median":  valuation["pe_5y_median"],
+        "pe_percentile": valuation["pe_percentile"],
+        "pe_note":       valuation["pe_note"],
     }

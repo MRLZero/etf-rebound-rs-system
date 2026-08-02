@@ -26,9 +26,28 @@ from math import ceil
 # 估值字段格式化
 # -----------------------------
 def _fmt_valuation(result: dict) -> str:
-    """PE 格式化：PE: 28.5 或 PE: N/A"""
+    """
+    估值格式化，示例：
+        PE: 32.4  [2015-2025: 20 ~ 55 | med 37.5 | pct 45%]
+        PE: 32.4                 ← 无历史区间（ETF等）
+        PE: N/A
+    """
     pe_cur = result.get("pe_current")
-    return f"PE: {pe_cur}" if pe_cur is not None else "PE: N/A"
+    pe_low = result.get("pe_5y_low")
+    pe_high = result.get("pe_5y_high")
+    pe_med = result.get("pe_5y_median")
+    pe_pct = result.get("pe_percentile")
+    pe_note = result.get("pe_note", "")
+
+    if pe_cur is None:
+        return "PE: N/A"
+
+    if pe_low is not None and pe_high is not None:
+        pct_str   = f" | pct {pe_pct:.0f}%" if pe_pct is not None else ""
+        range_lbl = pe_note if pe_note else "hist"
+        return f"PE: {pe_cur}  [{range_lbl}: {pe_low} ~ {pe_high} | med {pe_med}{pct_str}]"
+
+    return f"PE: {pe_cur}"
 
 
 def build_messages(results, max_items=15):
