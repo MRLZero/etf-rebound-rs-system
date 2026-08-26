@@ -25,6 +25,11 @@ ETFS = {
     "XLU": {"window": 180, "category": "公用事业/防御ETF"},  # 公用事业ETF
     "VPU": {"window": 180, "category": "公用事业/防御ETF"},  # 公用事业增强版ETF
     "IDU": {"window": 180, "category": "公用事业/防御ETF"},  # 公用事业另一版本ETF
+    "BE": {"window": 180, "category": "Bloom Energy"},
+    "GEV": {"window": 180, "category": "GE Vernova"},
+    "LMT": {"window": 180, "category": "洛克希德马丁"},
+    "RTX": {"window": 180, "category": "雷神技术"},
+    "CAT": {"window": 180, "category": "卡特比勒"},
 
     # --------- 数据中心/光模块/互联网 ---------
     "DJCI": {"window": 180, "category": "数据中心/光模块"},  # 数据中心/光模块ETF
@@ -47,11 +52,14 @@ ETFS = {
     "XLV": {"window": 180, "category": "医疗健康"},  # 医疗健康ETF
     "IBB": {"window": 180, "category": "生物科技"},  # 生物科技ETF
     "XBI": {"window": 180, "category": "小盘生物科技"},  # 小盘生物科技ETF
+    "LLY": {"window": 180, "category": "礼来"},
+    "NVO": {"window": 180, "category": "诺和诺德"},
 
     # --------- 能源/石油/原材料 ---------
     "XLE": {"window": 180, "category": "石油天然气"},  # 石油天然气ETF
     "USO": {"window": 180, "category": "原油"},  # 原油ETF
     "VAW": {"window": 180, "category": "原材料"},  # 原材料ETF
+    "URA": {"window": 180, "category": "铀价ETF-Golbal X"},
 
     # --------- 量子计算 ---------
     "QTUM": {"window": 180, "category": "量子计算/量子技术"},
@@ -76,10 +84,17 @@ ETFS = {
     "INTC": {"window": 180, "category": "英特尔"},
     "CRWV": {"window": 180, "category": "CoreWeave"},
     "ASML": {"window": 180, "category": "阿斯麦"},
+    "LRCX": {"window": 180, "category": "泛林集团"},
+    "AMAT": {"window": 180, "category": "应用材料"},
+    "MRVL": {"window": 180, "category": "迈威尔科技"},
+    "SPCX": {"window": 180, "category": "SpaceX"},
 
     # ---- 金融 ----
     "SCHW": {"window": 180, "category": "嘉信理财"},
     "HSBC": {"window": 180, "category": "汇丰控股"},
+    "JPM": {"window": 180, "category": "摩根大通"},
+    "MA": {"window": 180, "category": "万事达"},
+    "IBIT": {"window": 180, "category": "比特币ETF"},
 
     # ---- 巴菲特持仓 -----
     "AXP": {"window": 180, "category": "美国运通"},
