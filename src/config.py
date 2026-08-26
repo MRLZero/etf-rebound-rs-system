@@ -59,7 +59,7 @@ ETFS = {
     "XLE": {"window": 180, "category": "石油天然气"},  # 石油天然气ETF
     "USO": {"window": 180, "category": "原油"},  # 原油ETF
     "VAW": {"window": 180, "category": "原材料"},  # 原材料ETF
-    "URA": {"window": 180, "category": "铀价ETF-Golbal X"},
+    "URA": {"window": 180, "category": "铀价ETF-Global X"},
 
     # --------- 量子计算 ---------
     "QTUM": {"window": 180, "category": "量子计算/量子技术"},
