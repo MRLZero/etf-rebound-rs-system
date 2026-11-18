@@ -99,7 +99,7 @@ ETFS = {
     "JPM": {"window": 180, "category": "摩根大通"},
     "MA": {"window": 180, "category": "万事达"},
     "IBIT": {"window": 180, "category": "比特币ETF"},
-    "SPGI": {"window": 180, "category": "比特币ETF"},
+    "SPGI": {"window": 180, "category": "标普全球"},
 
     # ---- 巴菲特持仓 -----
     "AXP": {"window": 180, "category": "美国运通"},
