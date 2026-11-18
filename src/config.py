@@ -10,21 +10,21 @@ ETFS = {
     "SMH": {"window": 180, "category": "半导体核心"},  # 半导体核心ETF
     "SOXX": {"window": 180, "category": "半导体龙头"},  # 半导体龙头ETF
     "IGV": {"window": 180, "category": "软件/云计算/AI相关"},  # 软件/云计算/AI相关
-    "BOTZ": {"window": 180, "category": "机器人/人工智能"},  # 机器人/人工智能ETF
+    # "BOTZ": {"window": 180, "category": "机器人/人工智能"},  # 机器人/人工智能ETF
 
     # --------- 新能源/储能/电网 ---------
-    "GRID": {"window": 180, "category": "智能电网"},  # 智能电网ETF
-    "LIT": {"window": 180, "category": "锂电池/储能"},  # 锂电池/储能ETF
-    "BATT": {"window": 180, "category": "储能龙头"},  # 储能龙头ETF
-    "TAN": {"window": 180, "category": "光伏太阳能"},  # 光伏太阳能ETF
-    "FAN": {"window": 180, "category": "风电"},  # 风电ETF
-    "ICLN": {"window": 180, "category": "全球清洁能源"},  # 全球清洁能源ETF
-    "KARS": {"window": 180, "category": "电动车+电池"},  # 电动车+电池ETF
+    # "GRID": {"window": 180, "category": "智能电网"},  # 智能电网ETF
+    # "LIT": {"window": 180, "category": "锂电池/储能"},  # 锂电池/储能ETF
+    # "BATT": {"window": 180, "category": "储能龙头"},  # 储能龙头ETF
+    # "TAN": {"window": 180, "category": "光伏太阳能"},  # 光伏太阳能ETF
+    # "FAN": {"window": 180, "category": "风电"},  # 风电ETF
+    # "ICLN": {"window": 180, "category": "全球清洁能源"},  # 全球清洁能源ETF
+    # "KARS": {"window": 180, "category": "电动车+电池"},  # 电动车+电池ETF
 
     # --------- 公用事业/防御ETF ---------
-    "XLU": {"window": 180, "category": "公用事业/防御ETF"},  # 公用事业ETF
-    "VPU": {"window": 180, "category": "公用事业/防御ETF"},  # 公用事业增强版ETF
-    "IDU": {"window": 180, "category": "公用事业/防御ETF"},  # 公用事业另一版本ETF
+    # "XLU": {"window": 180, "category": "公用事业/防御ETF"},  # 公用事业ETF
+    # "VPU": {"window": 180, "category": "公用事业/防御ETF"},  # 公用事业增强版ETF
+    # "IDU": {"window": 180, "category": "公用事业/防御ETF"},  # 公用事业另一版本ETF
     "BE": {"window": 180, "category": "Bloom Energy"},
     "GEV": {"window": 180, "category": "GE Vernova"},
     "LMT": {"window": 180, "category": "洛克希德马丁"},
@@ -32,21 +32,25 @@ ETFS = {
     "CAT": {"window": 180, "category": "卡特比勒"},
 
     # --------- 数据中心/光模块/互联网 ---------
-    "DJCI": {"window": 180, "category": "数据中心/光模块"},  # 数据中心/光模块ETF
-    "IPAY": {"window": 180, "category": "支付/互联网"},  # 支付/互联网ETF
-    "FDN": {"window": 180, "category": "电商/互联网"},  # 电商/互联网ETF
-    "VGT": {"window": 180, "category": "技术成长"},  # 技术成长ETF
+    # "DJCI": {"window": 180, "category": "数据中心/光模块"},  # 数据中心/光模块ETF
+    # "IPAY": {"window": 180, "category": "支付/互联网"},  # 支付/互联网ETF
+    # "FDN": {"window": 180, "category": "电商/互联网"},  # 电商/互联网ETF
+    # "VGT": {"window": 180, "category": "技术成长"},  # 技术成长ETF
 
-    # --------- 消费/电商 ---------
-    "XLY": {"window": 180, "category": "可选消费"},  # 可选消费ETF
+    # --------- 大盘指数 ---------
+    # "XLY": {"window": 180, "category": "可选消费"},  # 可选消费ETF
     "VOO": {"window": 180, "category": "标普500指数"},  # 标普500指数ETF
     "QQQ": {"window": 180, "category": "纳斯达克100"},  # 纳斯达克100ETF
-    "VTI": {"window": 180, "category": "美股全市场"},  # 美股全市场ETF
+    # "VTI": {"window": 180, "category": "美股全市场"},  # 美股全市场ETF
+
+    # --------- 消费/奢侈品 ---------
+    "RACE": {"window": 180, "category": "法拉利"},
+    "HESAY": {"window": 180, "category": "爱马仕"},
 
     # --------- 金融/银行/REIT ---------
     "XLF": {"window": 180, "category": "金融/银行/REIT"},  # 金融板块ETF
     "KBE": {"window": 180, "category": "金融/银行/REIT"},  # 银行ETF
-    "VNQ": {"window": 180, "category": "房地产投资信托"},  # 房地产投资信托ETF
+    # "VNQ": {"window": 180, "category": "房地产投资信托"},  # 房地产投资信托ETF
 
     # --------- 健康/生物科技 ---------
     "XLV": {"window": 180, "category": "医疗健康"},  # 医疗健康ETF
@@ -58,8 +62,8 @@ ETFS = {
     # --------- 能源/石油/原材料 ---------
     "XLE": {"window": 180, "category": "石油天然气"},  # 石油天然气ETF
     "USO": {"window": 180, "category": "原油"},  # 原油ETF
-    "VAW": {"window": 180, "category": "原材料"},  # 原材料ETF
-    "URA": {"window": 180, "category": "铀价ETF-Global X"},
+    # "VAW": {"window": 180, "category": "原材料"},  # 原材料ETF
+    # "URA": {"window": 180, "category": "铀价ETF-Global X"},
 
     # --------- 量子计算 ---------
     "QTUM": {"window": 180, "category": "量子计算/量子技术"},
@@ -68,33 +72,34 @@ ETFS = {
     # --------- 7巨头 -------------
     "AAPL": {"window": 180, "category": "苹果"},
     "AMZN": {"window": 180, "category": "亚马逊"},
-    "GOOG": {"window": 180, "category": "谷歌"},
+    "GOOG": {"window": 180, "category": "谷歌-C"},
     "META": {"window": 180, "category": "Meta Platforms"},
     "MSFT": {"window": 180, "category": "微软"},
     "NVDA": {"window": 180, "category": "英伟达"},
     "TSLA": {"window": 180, "category": "特斯拉"},
 
     # ----- 科技 -------
-    "IBM": {"window": 180, "category": "IBM Corp"},
+    # "IBM": {"window": 180, "category": "IBM Corp"},
     "AVGO": {"window": 180, "category": "博通"},
     "TSM": {"window": 180, "category": "台积电"},
     "MU": {"window": 180, "category": "美光科技"},
     "AMD": {"window": 180, "category": "美国超微公司"},
     "ARM": {"window": 180, "category": "Arm Holdings"},
     "INTC": {"window": 180, "category": "英特尔"},
-    "CRWV": {"window": 180, "category": "CoreWeave"},
+    # "CRWV": {"window": 180, "category": "CoreWeave"},
     "ASML": {"window": 180, "category": "阿斯麦"},
-    "LRCX": {"window": 180, "category": "泛林集团"},
-    "AMAT": {"window": 180, "category": "应用材料"},
-    "MRVL": {"window": 180, "category": "迈威尔科技"},
+    # "LRCX": {"window": 180, "category": "泛林集团"},
+    # "AMAT": {"window": 180, "category": "应用材料"},
+    # "MRVL": {"window": 180, "category": "迈威尔科技"},
     "SPCX": {"window": 180, "category": "SpaceX"},
 
     # ---- 金融 ----
-    "SCHW": {"window": 180, "category": "嘉信理财"},
+    # "SCHW": {"window": 180, "category": "嘉信理财"},
     "HSBC": {"window": 180, "category": "汇丰控股"},
     "JPM": {"window": 180, "category": "摩根大通"},
     "MA": {"window": 180, "category": "万事达"},
     "IBIT": {"window": 180, "category": "比特币ETF"},
+    "SPGI": {"window": 180, "category": "比特币ETF"},
 
     # ---- 巴菲特持仓 -----
     "AXP": {"window": 180, "category": "美国运通"},
@@ -103,13 +108,13 @@ ETFS = {
     "CVX": {"window": 180, "category": "雪佛龙"},
     "OXY": {"window": 180, "category": "西方石油"},
     "MCO": {"window": 180, "category": "穆迪"},
-    "CB": {"window": 180, "category": "安达保险"},
-    "KHC": {"window": 180, "category": "卡夫亨氏"},
-    "DVA": {"window": 180, "category": "德维特"},
-    "KR": {"window": 180, "category": "克罗格"},
+    # "CB": {"window": 180, "category": "安达保险"},
+    # "KHC": {"window": 180, "category": "卡夫亨氏"},
+    # "DVA": {"window": 180, "category": "德维特"},
+    # "KR": {"window": 180, "category": "克罗格"},
     "V": {"window": 180, "category": "Visa"},
-    "SIRI": {"window": 180, "category": "Sirius XM"},
-    "DAL": {"window": 180, "category": "达美航空"},
+    # "SIRI": {"window": 180, "category": "Sirius XM"},
+    # "DAL": {"window": 180, "category": "达美航空"},
 
     # ---- 中国股 ----
     "NTES": {"window": 180, "category": "网易"},
@@ -177,13 +182,13 @@ PE_RANGES = {
     # CB：保险，PE偏低稳定，低点2022年约8x，高点2020年约18x
     "CB":   {"low": 8.0,  "high": 20.0, "note": "2016-2026"},
     # KHC：食品，经历商誉减值，低点2019年约10x，高点2016年约30x
-    "KHC":  {"low": 10.0, "high": 30.0, "note": "2016-2026"},
+    # "KHC":  {"low": 10.0, "high": 30.0, "note": "2016-2026"},
     # DVA：透析服务，PE稳定，低点2022年约10x，高点2020年约20x
-    "DVA":  {"low": 10.0, "high": 22.0, "note": "2016-2026"},
+    # "DVA":  {"low": 10.0, "high": 22.0, "note": "2016-2026"},
     # KR：超市，低PE行业，低点2017年约12x，高点2020年约23x
-    "KR":   {"low": 10.0, "high": 23.0, "note": "2016-2026"},
+    # "KR":   {"low": 10.0, "high": 23.0, "note": "2016-2026"},
     # IBM：成熟转型期，低点2023年约8x，高点2017年约22x
-    "IBM":  {"low": 8,  "high": 50, "note": "2020-2026"},
+    # "IBM":  {"low": 8,  "high": 50, "note": "2020-2026"},
     # HSBC：欧洲银行，低点2020年约6x，高点2018年约15x
     "HSBC": {"low": 5.0,  "high": 20.0, "note": "2016-2026"},
     # INTC：低点2024年约8x（盈利暴跌），高点2016年约18x
@@ -192,6 +197,10 @@ PE_RANGES = {
     "TSM":  {"low": 12.0, "high": 38.0, "note": "2016-2026"},  # 低点2022Q4约12x，2026年创历史新高约35x
     # ASML：光刻机垄断，低点2016年约20x，高点2021年约70x，2026年约55x
     "ASML": {"low": 20.0, "high": 70.0, "note": "2016-2026"},
+    # 法拉利
+    "RACE": {"low": 21.0, "high": 58.0, "note": "2016-2026"},
+    # 爱马仕
+    "HESAY": {"low": 30.0, "high": 99.0, "note": "2016-2026"},
 
     # ─── ② 商业模式发生重大转变（5年：2021-2026） ─────────
     # MSFT：云转型后PE中枢抬升，2026年关税冲击低点约20.7x（Jun'26季度），
@@ -219,7 +228,7 @@ PE_RANGES = {
     # MU：半导体周期，景气低点6x，景气高点60x，2026年约17x处于周期中段
     "MU":   {"low": 6.0,  "high": 60.0, "note": "2016-2026"},
     # DAL：航空周期，正常盈利5-15x，疫情亏损期PE无效已剔除
-    "DAL":  {"low": 5.0,  "high": 20.0, "note": "2016-2026"},
+    # "DAL":  {"low": 5.0,  "high": 20.0, "note": "2016-2026"},
 
     # ─── ④ 高成长/区间过宽（5年：2021-2026，仅供方向参考） ─
     # NVDA：AI爆发后EPS暴增PE大幅压缩，2026年约30-34x为近年低点，
