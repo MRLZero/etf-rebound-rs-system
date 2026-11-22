@@ -4,7 +4,7 @@
 # 美股各行业ETF配置（window=180，单位：交易日）
 # 每个ETF包含 window 和 category 字段
 # =========================================================
-WINDOW = 360
+WINDOW = 180
 ETFS = {
     # --------- 半导体/AI 芯片 ---------
     "SMH": {"window": WINDOW, "category": "半导体核心"},  # 半导体核心ETF
