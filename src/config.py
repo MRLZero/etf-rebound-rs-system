@@ -4,125 +4,125 @@
 # 美股各行业ETF配置（window=180，单位：交易日）
 # 每个ETF包含 window 和 category 字段
 # =========================================================
-
+WINDOW = 360
 ETFS = {
     # --------- 半导体/AI 芯片 ---------
-    "SMH": {"window": 180, "category": "半导体核心"},  # 半导体核心ETF
-    "SOXX": {"window": 180, "category": "半导体龙头"},  # 半导体龙头ETF
-    "IGV": {"window": 180, "category": "软件/云计算/AI相关"},  # 软件/云计算/AI相关
-    # "BOTZ": {"window": 180, "category": "机器人/人工智能"},  # 机器人/人工智能ETF
+    "SMH": {"window": WINDOW, "category": "半导体核心"},  # 半导体核心ETF
+    "SOXX": {"window": WINDOW, "category": "半导体龙头"},  # 半导体龙头ETF
+    "IGV": {"window": WINDOW, "category": "软件/云计算/AI相关"},  # 软件/云计算/AI相关
+    # "BOTZ": {"window": WINDOW, "category": "机器人/人工智能"},  # 机器人/人工智能ETF
 
     # --------- 新能源/储能/电网 ---------
-    # "GRID": {"window": 180, "category": "智能电网"},  # 智能电网ETF
-    # "LIT": {"window": 180, "category": "锂电池/储能"},  # 锂电池/储能ETF
-    # "BATT": {"window": 180, "category": "储能龙头"},  # 储能龙头ETF
-    # "TAN": {"window": 180, "category": "光伏太阳能"},  # 光伏太阳能ETF
-    # "FAN": {"window": 180, "category": "风电"},  # 风电ETF
-    # "ICLN": {"window": 180, "category": "全球清洁能源"},  # 全球清洁能源ETF
-    # "KARS": {"window": 180, "category": "电动车+电池"},  # 电动车+电池ETF
+    # "GRID": {"window": WINDOW, "category": "智能电网"},  # 智能电网ETF
+    # "LIT": {"window": WINDOW, "category": "锂电池/储能"},  # 锂电池/储能ETF
+    # "BATT": {"window": WINDOW, "category": "储能龙头"},  # 储能龙头ETF
+    # "TAN": {"window": WINDOW, "category": "光伏太阳能"},  # 光伏太阳能ETF
+    # "FAN": {"window": WINDOW, "category": "风电"},  # 风电ETF
+    # "ICLN": {"window": WINDOW, "category": "全球清洁能源"},  # 全球清洁能源ETF
+    # "KARS": {"window": WINDOW, "category": "电动车+电池"},  # 电动车+电池ETF
 
     # --------- 公用事业/防御ETF ---------
-    # "XLU": {"window": 180, "category": "公用事业/防御ETF"},  # 公用事业ETF
-    # "VPU": {"window": 180, "category": "公用事业/防御ETF"},  # 公用事业增强版ETF
-    # "IDU": {"window": 180, "category": "公用事业/防御ETF"},  # 公用事业另一版本ETF
-    "BE": {"window": 180, "category": "Bloom Energy"},
-    "GEV": {"window": 180, "category": "GE Vernova"},
-    "LMT": {"window": 180, "category": "洛克希德马丁"},
-    "RTX": {"window": 180, "category": "雷神技术"},
-    "CAT": {"window": 180, "category": "卡特比勒"},
+    # "XLU": {"window": WINDOW, "category": "公用事业/防御ETF"},  # 公用事业ETF
+    # "VPU": {"window": WINDOW, "category": "公用事业/防御ETF"},  # 公用事业增强版ETF
+    # "IDU": {"window": WINDOW, "category": "公用事业/防御ETF"},  # 公用事业另一版本ETF
+    "BE": {"window": WINDOW, "category": "Bloom Energy"},
+    "GEV": {"window": WINDOW, "category": "GE Vernova"},
+    "LMT": {"window": WINDOW, "category": "洛克希德马丁"},
+    "RTX": {"window": WINDOW, "category": "雷神技术"},
+    "CAT": {"window": WINDOW, "category": "卡特比勒"},
 
     # --------- 数据中心/光模块/互联网 ---------
-    # "DJCI": {"window": 180, "category": "数据中心/光模块"},  # 数据中心/光模块ETF
-    # "IPAY": {"window": 180, "category": "支付/互联网"},  # 支付/互联网ETF
-    # "FDN": {"window": 180, "category": "电商/互联网"},  # 电商/互联网ETF
-    # "VGT": {"window": 180, "category": "技术成长"},  # 技术成长ETF
+    # "DJCI": {"window": WINDOW, "category": "数据中心/光模块"},  # 数据中心/光模块ETF
+    # "IPAY": {"window": WINDOW, "category": "支付/互联网"},  # 支付/互联网ETF
+    # "FDN": {"window": WINDOW, "category": "电商/互联网"},  # 电商/互联网ETF
+    # "VGT": {"window": WINDOW, "category": "技术成长"},  # 技术成长ETF
 
     # --------- 大盘指数 ---------
-    # "XLY": {"window": 180, "category": "可选消费"},  # 可选消费ETF
-    "VOO": {"window": 180, "category": "标普500指数"},  # 标普500指数ETF
-    "QQQ": {"window": 180, "category": "纳斯达克100"},  # 纳斯达克100ETF
-    # "VTI": {"window": 180, "category": "美股全市场"},  # 美股全市场ETF
+    # "XLY": {"window": WINDOW, "category": "可选消费"},  # 可选消费ETF
+    "VOO": {"window": WINDOW, "category": "标普500指数"},  # 标普500指数ETF
+    "QQQ": {"window": WINDOW, "category": "纳斯达克100"},  # 纳斯达克100ETF
+    # "VTI": {"window": WINDOW, "category": "美股全市场"},  # 美股全市场ETF
 
     # --------- 消费/奢侈品 ---------
-    "RACE": {"window": 180, "category": "法拉利"},
-    "HESAY": {"window": 180, "category": "爱马仕"},
+    "RACE": {"window": WINDOW, "category": "法拉利"},
+    "HESAY": {"window": WINDOW, "category": "爱马仕"},
 
     # --------- 金融/银行/REIT ---------
-    "XLF": {"window": 180, "category": "金融/银行/REIT"},  # 金融板块ETF
-    "KBE": {"window": 180, "category": "金融/银行/REIT"},  # 银行ETF
-    # "VNQ": {"window": 180, "category": "房地产投资信托"},  # 房地产投资信托ETF
+    "XLF": {"window": WINDOW, "category": "金融/银行/REIT"},  # 金融板块ETF
+    "KBE": {"window": WINDOW, "category": "金融/银行/REIT"},  # 银行ETF
+    # "VNQ": {"window": WINDOW, "category": "房地产投资信托"},  # 房地产投资信托ETF
 
     # --------- 健康/生物科技 ---------
-    "XLV": {"window": 180, "category": "医疗健康"},  # 医疗健康ETF
-    "IBB": {"window": 180, "category": "生物科技"},  # 生物科技ETF
-    "XBI": {"window": 180, "category": "小盘生物科技"},  # 小盘生物科技ETF
-    "LLY": {"window": 180, "category": "礼来"},
-    "NVO": {"window": 180, "category": "诺和诺德"},
+    "XLV": {"window": WINDOW, "category": "医疗健康"},  # 医疗健康ETF
+    "IBB": {"window": WINDOW, "category": "生物科技"},  # 生物科技ETF
+    "XBI": {"window": WINDOW, "category": "小盘生物科技"},  # 小盘生物科技ETF
+    "LLY": {"window": WINDOW, "category": "礼来"},
+    "NVO": {"window": WINDOW, "category": "诺和诺德"},
 
     # --------- 能源/石油/原材料 ---------
-    "XLE": {"window": 180, "category": "石油天然气"},  # 石油天然气ETF
-    "USO": {"window": 180, "category": "原油"},  # 原油ETF
-    # "VAW": {"window": 180, "category": "原材料"},  # 原材料ETF
-    # "URA": {"window": 180, "category": "铀价ETF-Global X"},
+    "XLE": {"window": WINDOW, "category": "石油天然气"},  # 石油天然气ETF
+    "USO": {"window": WINDOW, "category": "原油"},  # 原油ETF
+    # "VAW": {"window": WINDOW, "category": "原材料"},  # 原材料ETF
+    # "URA": {"window": WINDOW, "category": "铀价ETF-Global X"},
 
     # --------- 量子计算 ---------
-    "QTUM": {"window": 180, "category": "量子计算/量子技术"},
-    "QUBT": {"window": 180, "category": "全球量子计算行业"},
+    "QTUM": {"window": WINDOW, "category": "量子计算/量子技术"},
+    "QUBT": {"window": WINDOW, "category": "全球量子计算行业"},
 
     # --------- 7巨头 -------------
-    "AAPL": {"window": 180, "category": "苹果"},
-    "AMZN": {"window": 180, "category": "亚马逊"},
-    "GOOG": {"window": 180, "category": "谷歌-C"},
-    "META": {"window": 180, "category": "Meta Platforms"},
-    "MSFT": {"window": 180, "category": "微软"},
-    "NVDA": {"window": 180, "category": "英伟达"},
-    "TSLA": {"window": 180, "category": "特斯拉"},
+    "AAPL": {"window": WINDOW, "category": "苹果"},
+    "AMZN": {"window": WINDOW, "category": "亚马逊"},
+    "GOOG": {"window": WINDOW, "category": "谷歌-C"},
+    "META": {"window": WINDOW, "category": "Meta Platforms"},
+    "MSFT": {"window": WINDOW, "category": "微软"},
+    "NVDA": {"window": WINDOW, "category": "英伟达"},
+    "TSLA": {"window": WINDOW, "category": "特斯拉"},
 
     # ----- 科技 -------
-    # "IBM": {"window": 180, "category": "IBM Corp"},
-    "AVGO": {"window": 180, "category": "博通"},
-    "TSM": {"window": 180, "category": "台积电"},
-    "MU": {"window": 180, "category": "美光科技"},
-    "AMD": {"window": 180, "category": "美国超微公司"},
-    "ARM": {"window": 180, "category": "Arm Holdings"},
-    "INTC": {"window": 180, "category": "英特尔"},
-    # "CRWV": {"window": 180, "category": "CoreWeave"},
-    "ASML": {"window": 180, "category": "阿斯麦"},
-    # "LRCX": {"window": 180, "category": "泛林集团"},
-    # "AMAT": {"window": 180, "category": "应用材料"},
-    # "MRVL": {"window": 180, "category": "迈威尔科技"},
-    "SPCX": {"window": 180, "category": "SpaceX"},
+    # "IBM": {"window": WINDOW, "category": "IBM Corp"},
+    "AVGO": {"window": WINDOW, "category": "博通"},
+    "TSM": {"window": WINDOW, "category": "台积电"},
+    "MU": {"window": WINDOW, "category": "美光科技"},
+    "AMD": {"window": WINDOW, "category": "美国超微公司"},
+    "ARM": {"window": WINDOW, "category": "Arm Holdings"},
+    "INTC": {"window": WINDOW, "category": "英特尔"},
+    # "CRWV": {"window": WINDOW, "category": "CoreWeave"},
+    "ASML": {"window": WINDOW, "category": "阿斯麦"},
+    # "LRCX": {"window": WINDOW, "category": "泛林集团"},
+    # "AMAT": {"window": WINDOW, "category": "应用材料"},
+    # "MRVL": {"window": WINDOW, "category": "迈威尔科技"},
+    "SPCX": {"window": WINDOW, "category": "SpaceX"},
 
     # ---- 金融 ----
-    # "SCHW": {"window": 180, "category": "嘉信理财"},
-    "HSBC": {"window": 180, "category": "汇丰控股"},
-    "JPM": {"window": 180, "category": "摩根大通"},
-    "MA": {"window": 180, "category": "万事达"},
-    "IBIT": {"window": 180, "category": "比特币ETF"},
-    "SPGI": {"window": 180, "category": "标普全球"},
+    # "SCHW": {"window": WINDOW, "category": "嘉信理财"},
+    "HSBC": {"window": WINDOW, "category": "汇丰控股"},
+    "JPM": {"window": WINDOW, "category": "摩根大通"},
+    "MA": {"window": WINDOW, "category": "万事达"},
+    "IBIT": {"window": WINDOW, "category": "比特币ETF"},
+    "SPGI": {"window": WINDOW, "category": "标普全球"},
 
     # ---- 巴菲特持仓 -----
-    "AXP": {"window": 180, "category": "美国运通"},
-    "KO": {"window": 180, "category": "可口可乐"},
-    "BAC": {"window": 180, "category": "美国银行"},
-    "CVX": {"window": 180, "category": "雪佛龙"},
-    "OXY": {"window": 180, "category": "西方石油"},
-    "MCO": {"window": 180, "category": "穆迪"},
-    # "CB": {"window": 180, "category": "安达保险"},
-    # "KHC": {"window": 180, "category": "卡夫亨氏"},
-    # "DVA": {"window": 180, "category": "德维特"},
-    # "KR": {"window": 180, "category": "克罗格"},
-    "V": {"window": 180, "category": "Visa"},
-    # "SIRI": {"window": 180, "category": "Sirius XM"},
-    # "DAL": {"window": 180, "category": "达美航空"},
+    "AXP": {"window": WINDOW, "category": "美国运通"},
+    "KO": {"window": WINDOW, "category": "可口可乐"},
+    "BAC": {"window": WINDOW, "category": "美国银行"},
+    "CVX": {"window": WINDOW, "category": "雪佛龙"},
+    "OXY": {"window": WINDOW, "category": "西方石油"},
+    "MCO": {"window": WINDOW, "category": "穆迪"},
+    # "CB": {"window": WINDOW, "category": "安达保险"},
+    # "KHC": {"window": WINDOW, "category": "卡夫亨氏"},
+    # "DVA": {"window": WINDOW, "category": "德维特"},
+    # "KR": {"window": WINDOW, "category": "克罗格"},
+    "V": {"window": WINDOW, "category": "Visa"},
+    # "SIRI": {"window": WINDOW, "category": "Sirius XM"},
+    # "DAL": {"window": WINDOW, "category": "达美航空"},
 
     # ---- 中国股 ----
-    "NTES": {"window": 180, "category": "网易"},
-    "TME": {"window": 180, "category": "腾讯音乐"},
-    "FUTU": {"window": 180, "category": "富途"},
-    "HKXCY": {"window": 180, "category": "香港交易所（ADR）"},
-    "TCEHY": {"window": 180, "category": "腾讯控股（ADR）"},
-    "PMRTY": {"window": 180, "category": "POP MART"},
+    "NTES": {"window": WINDOW, "category": "网易"},
+    "TME": {"window": WINDOW, "category": "腾讯音乐"},
+    "FUTU": {"window": WINDOW, "category": "富途"},
+    "HKXCY": {"window": WINDOW, "category": "香港交易所（ADR）"},
+    "TCEHY": {"window": WINDOW, "category": "腾讯控股（ADR）"},
+    "PMRTY": {"window": WINDOW, "category": "POP MART"},
 
 }
 
